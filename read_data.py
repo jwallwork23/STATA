@@ -1,5 +1,4 @@
 import numpy as np
-import scipy.interpolate as si
 from scipy.io.netcdf import NetCDFFile
 
 

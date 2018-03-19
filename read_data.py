@@ -80,9 +80,9 @@ def weekly_wind_average(rank3tensor):
     weeks = int(days / 7)
     D = np.zeros((weeks,shape[1],shape[2]))
     for i in range(weeks):
-    for j in range(shape[1]):
-            for k in range(shape[2]):
-                D[i, j, k] = np.mean([rank3tensor[l, j, k] for l in range(i*24*7, (i+1)*24*7)])
+        for j in range(shape[1]):
+                for k in range(shape[2]):
+                    D[i, j, k] = np.mean([rank3tensor[l, j, k] for l in range(i*24*7, (i+1)*24*7)])
     return D
 
 
@@ -92,9 +92,9 @@ def daily_wind_average(rank3tensor):
     D = np.zeros((days,shape[1],shape[2]))
 
     for i in range(days):
-    for j in range(shape[1]):
-            for k in range(shape[2]):
-                D[i, j, k] = np.mean([rank3tensor[l, j, k] for l in range(i*24, (i+1)*24)])
+        for j in range(shape[1]):
+                for k in range(shape[2]):
+                    D[i, j, k] = np.mean([rank3tensor[l, j, k] for l in range(i*24, (i+1)*24)])
     return D
 
 

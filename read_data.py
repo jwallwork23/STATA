@@ -2,6 +2,9 @@ import numpy as np
 from scipy.io.netcdf import NetCDFFile
 
 
+__all__ = ("extract_data", "weekly_max", "daily_totals")
+
+
 years = range(1979, 2011)
 
 

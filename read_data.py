@@ -53,8 +53,3 @@ def weekly_max(rank3tensor):
                 D[i, j, k] = max([rank3tensor[l, j, k]
                                   for l in range(i*24*7, (i+1)*24*7)])
     return D
-
-output0 = extract_data('04', weekly_max, year="1980")
-output1 = extract_data('04', daily_totals, year="1980")
-print(output0[0])
-print(output1[0])

@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+import numpy as np
 import read_data
 
 
@@ -11,9 +11,10 @@ months = ('05', '06', '07', '08', '09')
 for y in i_years:
     dat_y = ()
     for m in months:
-        dat_y += tuple(read_data.loop_over_month(m, read_data.weekly_max))
-    plt.plot(range(len(dat_y)), dat_y[y][ :, 11, 11])
-    plt.title('Year '+y)
+        dat_y += tuple(read_data.extract_data(m, read_data.weekly_max, years[y])[0][:, 11, 11])
+    print(dat_y)
+    plt.plot(range(1,21), dat_y)
+    plt.title('Year '+str(years[y]))
     plt.xlabel('Week')
     plt.ylabel('Weekly max rainfall')
     plt.show()

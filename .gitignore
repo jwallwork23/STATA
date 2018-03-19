@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Other
+.idea/*
+data_sorted*
+EDF_data.zip
+.DS_Store

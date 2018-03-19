@@ -3,6 +3,9 @@ import scipy.interpolate as si
 from scipy.io.netcdf import NetCDFFile
 
 
+years = range(1979, 2011)
+
+
 def daily_totals(rank3tensor):
     shape = np.shape(rank3tensor)
     days = shape[0]/24
@@ -24,6 +27,12 @@ def weekly_max(rank3tensor):
                 D[i, j, k] = max([rank3tensor[l, j, k] for l in range(i*24*7, (i+1)*24*7)])
     return D
 
+def loop_over_month(month_id, f):
+    output = []
+    for y in years:
+        nc1 = NetCDFFile('data_sorted/CFSR_hourly_rainfall/cold/data'+str(y)+'_'+month_id+'.nc', mmap=False)
+        output.append(f(nc1.variables['A_PCP_L1_Accum_1']))
+    return output
 
 # Show dimensions of data
 nc1 = NetCDFFile('data_sorted/CFSR_hourly_rainfall/cold/data1979_01.nc', mmap=False)

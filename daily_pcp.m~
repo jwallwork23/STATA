@@ -1,0 +1,13 @@
+%This script calculates total daily precipitation in UK
+year = 1979:2010
+month=1:12
+for i = 1:length(year)
+    for j=1:length(month)
+        datafile = sprintf('data%d_%02d.nc',year(i),month(j));
+        tot_time_steps = size(data_file,3);
+        total_days = tot_time_steps/24;
+        for j = 1:total_days
+            daily_data(i,j) = sum(sum(data_file(:,:,((j-1)*24+1:j*24)))); 
+        end
+    end
+end

@@ -103,5 +103,6 @@ ENV/
 # Other
 .idea/*
 data_sorted*
+data_unsorted*
 EDF_data.zip
 .DS_Store

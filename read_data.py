@@ -37,29 +37,3 @@ def loop_over_month(month_id, f):
         nc1 = NetCDFFile('data_sorted/CFSR_hourly_rainfall/cold/data'+str(y)+'_'+month_id+'.nc', mmap=False)
         output.append(f(nc1.variables['A_PCP_L1_Accum_1']))
     return output
-
-if __name__ == '__main__':
-
-    # Test daily_totals
-    nc1 = NetCDFFile('data_sorted/CFSR_hourly_rainfall/cold/data1979_01.nc', mmap=False)
-    for key in nc1.variables.keys():
-        print(key, np.shape(nc1.variables[key][:]))
-    test = daily_totals(nc1.variables['A_PCP_L1_Accum_1'])
-    print(test)
-    print(np.shape(test))
-    if not bool(input('Test 1: Press 0 to exit, 1 to continue: ')):
-        exit(23)
-
-    # Test daily_totals
-    test2 = weekly_max(nc1.variables['A_PCP_L1_Accum_1'])
-    print(test2)
-    print(np.shape(test2))
-    if not bool(input('Test 2: Press 0 to exit, 1 to continue: ')):
-        exit(23)
-
-    # Tet loop_over_month
-    test3 = loop_over_month('01', weekly_max)
-    print(test3)
-    print(np.shape(test3))
-    if not bool(input('Test 3: Press 0 to exit, 1 to continue: ')):
-        exit(23)

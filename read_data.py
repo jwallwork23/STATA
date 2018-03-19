@@ -72,6 +72,7 @@ def weekly_max(rank3tensor):
                                   for l in range(i*24*7, (i+1)*24*7)])
     return D
 
+
 def weekly_wind_average(rank3tensor):
     # rank3tensor is either u or v of the wind data
     shape = np.shape(rank3tensor)
@@ -79,10 +80,11 @@ def weekly_wind_average(rank3tensor):
     weeks = int(days / 7)
     D = np.zeros((weeks,shape[1],shape[2]))
     for i in range(weeks):
-	for j in range(shape[1]):
+    for j in range(shape[1]):
             for k in range(shape[2]):
                 D[i, j, k] = np.mean([rank3tensor[l, j, k] for l in range(i*24*7, (i+1)*24*7)])
     return D
+
 
 def daily_wind_average(rank3tensor):
     shape = np.shape(rank3tensor)
@@ -90,7 +92,13 @@ def daily_wind_average(rank3tensor):
     D = np.zeros((days,shape[1],shape[2]))
 
     for i in range(days):
-	for j in range(shape[1]):
+    for j in range(shape[1]):
             for k in range(shape[2]):
                 D[i, j, k] = np.mean([rank3tensor[l, j, k] for l in range(i*24, (i+1)*24)])
     return D
+
+
+# output0 = extract_data('04', weekly_max, year="1980")
+# output1 = extract_data('04', daily_totals, year="1980")
+# print(output0[0])
+# print(output1[0])

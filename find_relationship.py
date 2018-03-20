@@ -8,6 +8,17 @@ years = range(1979, 2011)
 
 
 def take_ratio(season, field, location):
+    """Computes a ratio of field intensity
+    given a particular season, field (i.e. rainfall)
+    and location (x, y) - lat-lon location.
+
+    :arg season: A string denoting the season. Supported seasons
+                 are "warm" and "cold".
+    :arg field: A field to examine. Rainfall is dentoted by "r",
+                wind speed components are 'u', 'v'.
+    :arg location: A tuple denoting the grid point locations (x, y).
+    """
+
     x, y = location
 
     dataDaily = pd.read_csv('daily_totals_%s_gp%d-%d_%s_takeMax=True.csv' % (field, x, y, season))
@@ -33,8 +44,6 @@ def take_ratio(season, field, location):
     result = "ratio_%s_gp%s-%s_%s.csv" % (field, x, y, season)
     df.to_csv(result, index=False, mode="w")
 
-# take_ratio('warm', 'r', (11, 11))
-# take_ratio('cold', 'r', (11, 11))
 
 def get_ratio(season, field, location):
     x, y = location
@@ -54,9 +63,11 @@ def get_ratio(season, field, location):
     for year in years:
         # print("Extracting %s season data for year %d..." % (season, year))
         for month in months:
-            hly = max(extract_data(month, weekly_max, "r", year=year)[0][:, x, y])
-            dly = max(extract_data(month, daily_totals, "r", year=year)[0][:, x, y])
-            if  hly > hourlyMax:
+            hly = max(extract_data(month, weekly_max,
+                                   "r", year=year)[0][:, x, y])
+            dly = max(extract_data(month, daily_totals,
+                                   "r", year=year)[0][:, x, y])
+            if hly > hourlyMax:
                 hourlyMax = hly
             if dly > dailyMax:
                 dailyMax = dly
@@ -65,7 +76,8 @@ def get_ratio(season, field, location):
 
     return hourlyMax, dailyMax
 
-locations = ((11,11), (11,12), (12,12), (13,13), (13,14), (14,14), (14,16), (15,16), (16,16))
+locations = ((11, 11), (11, 12), (12, 12), (13, 13),
+             (13, 14), (14, 14), (14, 16), (15, 16), (16, 16))
 
 H = []
 D = []

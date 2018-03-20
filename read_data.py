@@ -1,3 +1,5 @@
+"""Various metric for analysing statistical data."""
+
 import numpy as np
 from scipy.io.netcdf import NetCDFFile
 
@@ -9,6 +11,15 @@ years = range(1979, 2011)
 
 
 def extract_data(month_id, func, data_id, year=None):
+    """A general purpose tool for composing statistical metrics.
+
+    :arg month_id: A label for the month.
+    :arg func: a FUNCTION describing the metric to use.
+    :arg data_id: A label for a particular field to examine.
+    :arg year: An optional year to examine. If none is provided,
+               years 1979 - 2010 will be returned.
+    """
+
     # set data_id to 'u' (or 'v') for 'u' (or 'v')
     # component of wind, or 'r' for rainfall
     if month_id in ('11', '12', '01', '02', '03'):

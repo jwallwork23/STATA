@@ -1,3 +1,8 @@
+"""A simple plotting script for finding the weekly maximum
+rainfall from 1979 to 2010. This code requires specifying a
+specific lat-lon location.
+"""
+
 import matplotlib.pyplot as plt
 
 from read_data import *
@@ -13,9 +18,12 @@ plt.rc('legend', fontsize='x-large')
 
 for y in i_years:
     dat_y = ()
+    lat = 11
+    lon = 11
     for m in months:
-        dat_y += tuple(extract_data(m, weekly_max, 'r', year=years[y])[0][:, 11, 11])
-    plt.plot(range(1,21), dat_y)
+        dat_y += tuple(extract_data(m, weekly_max,
+                                    'r', year=years[y])[0][:, lat, lon])
+    plt.plot(range(1, 21), dat_y)
     plt.title('Year '+str(years[y]))
     plt.xlabel('')
     plt.xticks(range(2, 21, 4), ('May', 'June', 'July', 'August', 'September'))

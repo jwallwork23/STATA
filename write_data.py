@@ -64,7 +64,8 @@ def write_daily_totals(season, field, location, takeMax=False):
         data[key] = ()
         for month in months:
             if takeMax:
-                tup = tuple(weekly_max(extract_data(month, daily_totals, "r", year=year)[0][:, x, y]))
+                monthDat = extract_data(month, daily_totals, "r", year=year)[0][:, x, y]
+                tup = tuple(max(monthDat[7*i:7*(i+1)]) for i in range(4))
             else:
                 tup = tuple(extract_data(month, daily_totals, "r", year=year)[0][:, x, y])
             data[key] += tup

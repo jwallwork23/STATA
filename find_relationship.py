@@ -1,5 +1,11 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
+from read_data import *
+
+years = range(1979, 2011)
+
 
 def take_ratio(season, field, location):
     x, y = location
@@ -27,5 +33,48 @@ def take_ratio(season, field, location):
     result = "ratio_%s_gp%s-%s_%s.csv" % (field, x, y, season)
     df.to_csv(result, index=False, mode="w")
 
-take_ratio('warm', 'r', (11, 11))
-take_ratio('cold', 'r', (11, 11))
+# take_ratio('warm', 'r', (11, 11))
+# take_ratio('cold', 'r', (11, 11))
+
+def get_ratio(season, field, location):
+    x, y = location
+
+    if season == "warm":
+        months = ('05', '06', '07', '08', '09')
+    elif season == "cold":
+        months = ('11', '12', '01', '02', '03')
+    else:
+        raise ValueError("Season not recognized")
+
+    if field != "r":
+        raise NotImplementedError("Only rain implemented at the moment")
+
+    hourlyMax = 0
+    dailyMax = 0
+    for year in years:
+        # print("Extracting %s season data for year %d..." % (season, year))
+        for month in months:
+            hly = max(extract_data(month, weekly_max, "r", year=year)[0][:, x, y])
+            dly = max(extract_data(month, daily_totals, "r", year=year)[0][:, x, y])
+            if  hly > hourlyMax:
+                hourlyMax = hly
+            if dly > dailyMax:
+                dailyMax = dly
+    # print('Hourly maximum at %d-%d: %f' % (x, y, hourlyMax))
+    # print('Daily maximum at %d-%d: %f' % (x, y, dailyMax))
+
+    return hourlyMax, dailyMax
+
+locations = ((11,11), (11,12), (12,12), (13,13), (13,14), (14,14), (14,16), (15,16), (16,16))
+
+H = []
+D = []
+for x, y in locations:
+    h, d = get_ratio('warm', 'r', (x, y))
+    H.append(h)
+    D.append(d)
+    print('Ratio %d-%d: %f, hourly: %f, daily: %f' % (x, y, d/h, h, d))
+plt.scatter(H, D)
+plt.xaxis('Hourly max')
+plt.yaxis('Daily max')
+plt.savefig('ratios.pdf')

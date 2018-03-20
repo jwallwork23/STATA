@@ -17,7 +17,7 @@ T = np.zeros((len(years), len(months), 31))
 for year_dx in range(len(years)):
     for month in months:
         y = str(years[year_dx])
-        data, = extract_data(month, daily_totals, year=y)
+        data, = extract_data(month, daily_totals,'r', year=y)
 
         days, _, _ = data.shape
         rf_m = []

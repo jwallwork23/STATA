@@ -23,11 +23,18 @@ def write_weekly_maximums(season, field, location):
 
     data = {}
     for year in years:
+        print("Extracting %s season data for year %d..." % (season, year))
         key = "%s" % str(year)
         data[key] = ()
         for month in months:
             data[key] += tuple(extract_data(month, weekly_max,
                                             "r", year=year)[0][:, x, y])
+    print('Done!')
+
+    # Acknowledge that winter crosses the New Year!
+    if season == "cold":
+        for key in data:
+            key += '-' + str(int(key)+1)
 
     df = pd.DataFrame(data)
     result = "weekly_max_%s_gp%s-%s_%s.csv" % (field, x, y, season)

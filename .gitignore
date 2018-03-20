@@ -106,7 +106,5 @@ data_sorted*
 data_unsorted*
 EDF_data.zip
 .DS_Store
-<<<<<<< HEAD
-=======
 plots/
->>>>>>> Wallwork
+*.csv

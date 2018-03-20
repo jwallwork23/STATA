@@ -7,13 +7,19 @@ def take_ratio(season, field, location):
     dataDaily = pd.read_csv('daily_totals_%s_gp%d-%d_%s_takeMax=True.csv' % (field, x, y, season))
     dataHourly = pd.read_csv('weekly_max_%s_gp%d-%d_%s.csv' % (field, x, y, season))
 
-    shape = np.shape(dataDaily)
-    assert (shape == np.shape(dataHourly))
-    ratio = np.zeros(shape)
+    dailyDict = dataDaily.to_dict()
+    hourlyDict = dataHourly.to_dict()
 
-    for i in range(shape[0]):
-        for j in range(shape[1]):
-            ratio[i, j] = dataDaily[i, j] / dataHourly[i, j]
+    ratio = {}
+
+    for year in dailyDict:
+        for weeks in dailyDict[year]:
+            vday = dailyDict[year][weeks]
+            vhr = hourlyDict[year][weeks]
+            try:
+                ratio[year] = vday / vhr
+            except:
+                ratio[year] = np.nan
 
     df = pd.DataFrame(ratio)
     result = "ratio_%s_gp%s-%s_%s.csv" % (field, x, y, season)

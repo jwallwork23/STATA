@@ -41,7 +41,7 @@ def write_weekly_maximums(season, field, location):
     df.to_csv(result, index=False, mode="w")
 
 
-def write_daily_totals(season, field, location):
+def write_daily_totals(season, field, location, takeMax=False):
     if not isinstance(location, tuple):
         raise ValueError("location should be a tuple (x, y)")
 
@@ -59,16 +59,27 @@ def write_daily_totals(season, field, location):
 
     data = {}
     for year in years:
+        print("Extracting %s season data for year %d..." % (season, year))
         key = "%s" % str(year)
         data[key] = ()
         for month in months:
-            data[key] += tuple(extract_data(month, daily_totals,
-                                            "r", year=year)[0][:, x, y])
+            if takeMax:
+                tup = tuple(weekly_max(extract_data(month, daily_totals, "r", year=year)[0][:, x, y]))
+            else:
+                tup = tuple(extract_data(month, daily_totals, "r", year=year)[0][:, x, y])
+            data[key] += tup
+    print('Done!')
+
+    # Acknowledge that winter crosses the New Year!
+    if season == "cold":
+        for key in data:
+            key += '-' + str(int(key) + 1)
 
     df = pd.DataFrame(data)
-    result = "daily_totals_%s_gp%s-%s_%s.csv" % (field, x, y, season)
+    result = "daily_totals_%s_gp%s-%s_%s_takeMax=%s.csv" % (field, x, y, season, takeMax)
     df.to_csv(result, index=False, mode="w")
 
 
-write_weekly_maximums("warm", "r", (11, 11))
-write_daily_totals("warm", "r", (11, 11))
+# write_weekly_maximums("cold", "r", (11, 11))
+write_daily_totals("warm", "r", (11, 11), takeMax=True)
+write_daily_totals("cold", "r", (11, 11), takeMax=True)

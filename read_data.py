@@ -68,7 +68,10 @@ def weekly_max(rank3tensor):
     shape = np.shape(rank3tensor)
     days = int(shape[0] / 24)
     weeks = int(days / 7)
-    D = np.zeros((weeks, shape[1], shape[2]))
+    try:
+        D = np.zeros((weeks, shape[1], shape[2]))
+    except:
+        D = np.zeros((weeks))
     for i in range(weeks):
         for j in range(shape[1]):
             for k in range(shape[2]):

@@ -65,6 +65,7 @@ def get_ratio(season, field, location):
 
     return hourlyMax, dailyMax
 
+
 locations = ((11,11), (11,12), (12,12), (13,13), (13,14), (14,14), (14,16), (15,16), (16,16))
 
 H = []
@@ -74,7 +75,13 @@ for x, y in locations:
     H.append(h)
     D.append(d)
     print('Ratio %d-%d: %f, hourly: %f, daily: %f' % (x, y, d/h, h, d))
+
+R = []
+for i in range(len(H)):
+    R.append(D[i]/H[i])
+print(np.mean(R))
+
 plt.scatter(H, D)
-plt.xaxis('Hourly max')
-plt.yaxis('Daily max')
+plt.xlabel('Hourly max')
+plt.ylabel('Daily max')
 plt.savefig('ratios.pdf')

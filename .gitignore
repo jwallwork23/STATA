@@ -108,3 +108,4 @@ EDF_data.zip
 .DS_Store
 plots/
 *.csv
+*.pdf

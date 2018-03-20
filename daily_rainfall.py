@@ -1,3 +1,7 @@
+"""Collect the total rainfall in a given lat-lon location
+over from 1979 to 2010.
+"""
+
 import numpy as np
 
 from read_data import extract_data, daily_totals

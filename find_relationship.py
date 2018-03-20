@@ -13,16 +13,19 @@ def take_ratio(season, field, location):
     ratio = {}
 
     for year in dailyDict:
+        ratio[str(year)] = []
         for weeks in dailyDict[year]:
             vday = dailyDict[year][weeks]
             vhr = hourlyDict[year][weeks]
             try:
-                ratio[year] = vday / vhr
+                ratio[str(year)].append(vday / vhr)
             except:
-                ratio[year] = np.nan
+                ratio[str(year)].append(np.nan)
 
+    # import ipdb; ipdb.set_trace()
     df = pd.DataFrame(ratio)
     result = "ratio_%s_gp%s-%s_%s.csv" % (field, x, y, season)
     df.to_csv(result, index=False, mode="w")
 
 take_ratio('warm', 'r', (11, 11))
+take_ratio('cold', 'r', (11, 11))

@@ -65,10 +65,16 @@ def write_daily_totals(season, field, location, takeMax=False):
         for month in months:
             if takeMax:
                 monthDat = extract_data(month, daily_totals, "r", year=year)[0][:, x, y]
-                tup = tuple(max(monthDat[7*i:7*(i+1)]) for i in range(4))
+                tup = [max(monthDat[7*i:7*(i+1)]) for i in range(4)]
             else:
-                tup = tuple(extract_data(month, daily_totals, "r", year=year)[0][:, x, y])
-            data[key] += tup
+                tup = extract_data(month, daily_totals, "r", year=year)[0][:, x, y]
+
+            data[key] += tuple(tup)
+
+        if len(data[key]) == 152:
+            lis = list(data[key])
+            del lis[-1]
+            data[key] = tuple(lis)
     print('Done!')
 
     # Acknowledge that winter crosses the New Year!
@@ -76,11 +82,16 @@ def write_daily_totals(season, field, location, takeMax=False):
         for key in data:
             key += '-' + str(int(key) + 1)
 
+    # import ipdb; ipdb.set_trace()
+
     df = pd.DataFrame(data)
     result = "daily_totals_%s_gp%s-%s_%s_takeMax=%s.csv" % (field, x, y, season, takeMax)
     df.to_csv(result, index=False, mode="w")
 
 
+# write_weekly_maximums("warm", "r", (11, 11))
 # write_weekly_maximums("cold", "r", (11, 11))
-write_daily_totals("warm", "r", (11, 11), takeMax=True)
-write_daily_totals("cold", "r", (11, 11), takeMax=True)
+# write_daily_totals("warm", "r", (11, 11), takeMax=True)
+# write_daily_totals("cold", "r", (11, 11), takeMax=True)
+# write_daily_totals("warm", "r", (11, 11), takeMax=False)
+write_daily_totals("cold", "r", (11, 11), takeMax=False)
